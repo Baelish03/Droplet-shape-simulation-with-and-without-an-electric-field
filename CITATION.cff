@@ -1,0 +1,23 @@
+# This CITATION.cff file was generated with cffinit.
+# Visit https://bit.ly/cffinit to generate yours today!
+
+cff-version: 1.2.0
+title: >-
+  Droplet shape simulation with and without an electric
+  field
+message: >-
+  A python algorithm to simulate the initial shape of a
+  water droplet and the evolution due to the presence of a
+  dipole electric field. 
+type: software
+authors:
+  - given-names: Emanuele
+    family-names: Urso
+    email: ursomanuele@gmail.com
+repository-code: >-
+  https://github.com/Baelish03/Droplet-shape-simulation-with-and-without-an-electric-field
+abstract: >-
+  A python algorithm to simulate the initial shape of a
+  water droplet and the evolution due to the presence of a
+  dipole electric field. 
+license: Apache-2.0

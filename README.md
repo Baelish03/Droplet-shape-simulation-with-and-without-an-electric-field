@@ -18,9 +18,6 @@ The study combines concepts from **capillarity, electrostatics, and fluid dynami
 5. [Example Results](#example-results)  
 6. [Requirements](#requirements)  
 7. [Usage](#usage)  
-8. [Repository Structure](#repository-structure)  
-9. [Acknowledgments](#acknowledgments)  
-10. [License](#license)  
 
 ---
 
@@ -118,7 +115,7 @@ The simulation framework is written in **Python** and implements the following m
 
 ## Requirements
 
-- Python ≥ 3.9  
+- Python ≥ 3.13
 - NumPy  
 - SciPy  
 - Matplotlib  
@@ -129,4 +126,26 @@ Install dependencies with:
 
 ```bash
 pip install numpy scipy matplotlib pypardiso pyamg
+```
+
+## Usage 
+Clone the repository
+```bash
+git clone https://github.com/Baelish03/Droplet-shape-simulation-with-and-without-an-electric-field.git
+cd Droplet-shape-simulation-with-and-without-an-electric-field
+```
+
+### Static Shape (No Field)
+```bash
+python3 drop_profile.py
+```
+
+### Comparison Between Different Radius in Static Shape
+```bash
+python3 radius_comparison.py
+```
+
+### Dinamic Evolution
+```bash
+python3 main.py
 ```

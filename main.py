@@ -14,11 +14,14 @@ import time
 import numpy as np
 from scipy.integrate import simpson as sm
 import matplotlib.pyplot as plt
+import matplotlib
 from field import Field
 from constants import Constants as const
 from dinamic_drop import DinamicDrop
 from potential_calculation import PotentialCalculation
 np.set_printoptions(threshold=np.inf)
+
+matplotlib.rcParams.update({'font.size': 24})
 
 def compute_initial_volume(drop_perim_pt):
     """
@@ -52,8 +55,8 @@ def plot_evolution(initial_shape, prev_perimeter, new_perimeter,
     axis.spines['left'].set_position('zero')
     axis.spines['top'].set_visible(False)
     axis.spines['right'].set_visible(False)
-    axis.set_xlabel('r [mm]', size=14, labelpad=-34, x=1.03)
-    axis.set_ylabel('z [' + r'$\mu$' + 'm]', size=14, labelpad=-30, y=.5, rotation=90)
+    axis.set_xlabel('r [mm]', labelpad=-20, x=.5)
+    axis.set_ylabel('z [' + r'$\mu$' + 'm]', labelpad=-30, y=.5, rotation=90)
     axis.grid(which='both', color='grey', linewidth=1, linestyle='-', alpha=0.2)
     initial_shape_local_r = initial_shape[0] - np.abs(np.min(initial_shape[0]))
     initial_shape_local_z = initial_shape[1] + np.abs(np.min(initial_shape[1]))
@@ -81,7 +84,7 @@ def plot_evolution(initial_shape, prev_perimeter, new_perimeter,
                     color="b", alpha=.2)
     axis.fill_between(x=new_perimeter_local_r, y1=new_perimeter_local_z,
                     color="r", alpha=.2)
-    axis.legend()
+    axis.legend(loc="upper right")
     plt.show(block=block_bool)
     plt.pause(2)
     plt.close()
@@ -104,11 +107,11 @@ if __name__ == "__main__":
     R_SCALE = DROP_WIDTH / DROP_MARKERS[0]
     Z_SCALE = DROP_HEIGHT / DROP_MARKERS[1]
 
-    ELECTRODE_POTENTIAL = 5e3 # V
+    ELECTRODE_POTENTIAL = 18e3 # V
     DROP_CENTER_ID = (0 * N_POINTS, 0.8 * N_POINTS)
     ELECTRODES_RADIUS = 0.15 * N_POINTS
 
-    DELTA_TIME = 5e-4 # s
+    DELTA_TIME = 1e-4 # s
     #########################################################
     # Voltage   | Temporal step     | Relaxation factor     |
     # ----------+-------------------+-----------------------+

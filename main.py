@@ -91,7 +91,6 @@ def plot_evolution(initial_shape, prev_perimeter, new_perimeter,
 
 
 if __name__ == "__main__":
-    import pypardiso as ppd
     raw_drop_data = np.loadtxt("output.txt", delimiter="\t")
     START_TIME = time.time()
 
@@ -107,24 +106,30 @@ if __name__ == "__main__":
     R_SCALE = DROP_WIDTH / DROP_MARKERS[0]
     Z_SCALE = DROP_HEIGHT / DROP_MARKERS[1]
 
-    ELECTRODE_POTENTIAL = 18e3 # V
+    ELECTRODE_POTENTIAL = 17e3 # V
+    RELAXATION_FACTOR = .5
+
+    # exact = finite differences calculation
+    # fast = use pyAMG
+    POTENTIAL_TYPE = "fast"
+
     DROP_CENTER_ID = (0 * N_POINTS, 0.8 * N_POINTS)
     ELECTRODES_RADIUS = 0.15 * N_POINTS
 
     DELTA_TIME = 1e-4 # s
-    #########################################################
-    # Voltage   | Temporal step     | Relaxation factor     |
-    # ----------+-------------------+-----------------------+
-    # 1000      | e-3               |   1                   |
-    # 5000      | e-3               |   1                   |
-    # 10000     | 2e-4              |   1                   |
-    # 15000     | e-4               |   1                   |
-    # 18000     | e-4               |   1                   |
-    #########################################################
+    #############################################################
+    # Voltage       | Temporal step     | Relaxation factor     |
+    # --------------+-------------------+-----------------------+
+    # 1000 - 7000   | e-4               |   1                   |
+    # 8000 - 10000  | e-4               |   .9                  |
+    # 11000 - 12000 | e-4               |   .75                 |
+    # 13000 - 14000 | e-4               |   .6                  |
+    # 15000 - 17000 | e-4               |   .5                  |
+    # 18000         | e-4               |   .4                  |
+    #############################################################
     ELAPSED_TIME = 0 # s
-    RELAXATION_FACTOR = 1
     CYCLE = 1
-    CONVERGENCE_THRESHOLD = .84
+    CONVERGENCE_THRESHOLD = .98 #.84
 
     new_drop_perim_pt = []
     current_drop_perim_pt = []
@@ -142,7 +147,7 @@ if __name__ == "__main__":
                                    - np.min(new_drop_perim_pt[0])) * R_SCALE * 1e3
                 max_height = np.abs(np.max(new_drop_perim_pt[1])
                                     - np.min(new_drop_perim_pt[1])) * Z_SCALE * 1e6
-                print(f"End-time \t\t\t {time.time() - START_TIME:.2f} seconds")
+                print(f"End-time \t\t\t {time.time() - START_TIME:.2f} seconds", "\t Cycle =", CYCLE)
                 print(ELECTRODE_POTENTIAL, "\t", ELAPSED_TIME, "\t", max_width,
                       "\t", max_height, "\t", RELAXATION_FACTOR)
                 plot_evolution(raw_drop_data, current_drop_perim_pt,
@@ -171,7 +176,7 @@ if __name__ == "__main__":
         poisson_matrix = field.poisson_matrix
         boundary_vector = field.boundary_potential.ravel()
         potential_calculation = PotentialCalculation(poisson_matrix, boundary_vector,
-                                                   N_POINTS, calc_type="fast")
+                                                   N_POINTS, calc_type=POTENTIAL_TYPE)
         potential_solution = potential_calculation.potential_solution
         print(f"Solved \t\t\t\t {time.time() - START_TIME:.2f} seconds")
 
